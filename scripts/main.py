@@ -87,7 +87,7 @@ class Script(scripts.Script):
         #return "mov2movByPose"
         return "mov2movByPose"
 
-    def show(self, is_txt2img):
+    def show(self, is_img2img):
         return scripts.AlwaysVisible
 
     def noise_multiplier_change(self, noise_multiplier):
@@ -98,44 +98,42 @@ class Script(scripts.Script):
 
     #def ui(self, is_img2img):
     def ui(self, is_txt2img):
-        #if is_img2img:
-        if is_txt2img:
-            with gr.Group():
-                with gr.Accordion("mov2movByPose", open=False):
-                    self.video_file_component = gr.Video()
+        with gr.Group():
+            with gr.Accordion("mov2movByPose", open=False):
+                self.video_file_component = gr.Video()
 
-                    enabled = gr.Checkbox(value=False, label="Enabled")
-                    with gr.Row():
-                        noise_multiplier = gr.Slider(minimum=0,
-                                                     maximum=1.5,
-                                                     step=0.1,
-                                                     label='System: Noise multiplier for img2img',
-                                                     elem_id='mm_img2img_noise_multiplier',
-                                                     value=0)
+                enabled = gr.Checkbox(value=False, label="Enabled")
+                with gr.Row():
+                    noise_multiplier = gr.Slider(minimum=0,
+                                                 maximum=1.5,
+                                                 step=0.1,
+                                                 label='System: Noise multiplier for img2img',
+                                                 elem_id='mm_img2img_noise_multiplier',
+                                                 value=0)
 
-                        color_correction = gr.Checkbox(
-                            value=False,
-                            elem_id='mm_img2img_color_correction',
-                            label='System: Apply color correction to img2img results to match original colors.')
+                    color_correction = gr.Checkbox(
+                        value=False,
+                        elem_id='mm_img2img_color_correction',
+                        label='System: Apply color correction to img2img results to match original colors.')
 
-                    with gr.Row():
-                        movie_frames = gr.Slider(minimum=10,
-                                                 maximum=60,
-                                                 step=1,
-                                                 label='Movie Frames',
-                                                 elem_id='mm_img2img_movie_frames',
-                                                 value=30)
+                with gr.Row():
+                    movie_frames = gr.Slider(minimum=10,
+                                             maximum=60,
+                                             step=1,
+                                             label='Movie Frames',
+                                             elem_id='mm_img2img_movie_frames',
+                                             value=30)
 
-                        button_apply = gr.Button(value='Apply', variant='secondary', elem_id='mm_img2img_apply')
+                    button_apply = gr.Button(value='Apply', variant='secondary', elem_id='mm_img2img_apply')
 
-            #noise_multiplier.change(fn=self.noise_multiplier_change, inputs=[noise_multiplier])
-            #color_correction.change(fn=self.color_correction_change, inputs=[color_correction])
+        #noise_multiplier.change(fn=self.noise_multiplier_change, inputs=[noise_multiplier])
+        #color_correction.change(fn=self.color_correction_change, inputs=[color_correction])
 
-            button_apply.click(fn=self.do_apply,
-                               inputs=[enabled, self.video_file_component, movie_frames, noise_multiplier,
-                                       color_correction])
+        button_apply.click(fn=self.do_apply,
+                           inputs=[enabled, self.video_file_component, movie_frames, noise_multiplier,
+                                   color_correction])
 
-            return [enabled, self.video_file_component, noise_multiplier, color_correction, movie_frames, button_apply]
+        return [enabled, self.video_file_component, noise_multiplier, color_correction, movie_frames, button_apply]
 
     def do_apply(self, enabled, video_file, movie_frames, noise_multiplier, color_correction):
         self.enabled = enabled
