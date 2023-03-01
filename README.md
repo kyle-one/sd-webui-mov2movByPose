@@ -25,10 +25,11 @@
 
 - 打包后的视频在目录 `outputs/mov2mov-images/` 下
 - 可能需要安装opencv
+- 目录不可以有中文！！！
 
 ## 常见问题
 
-- 目前已知会和`Additional Networks`扩展冲突
+- ~~目前已知会和`Additional Networks`扩展冲突~~
 
 ## 说明
 
